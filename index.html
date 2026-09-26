@@ -5,7 +5,7 @@
 <!-- FELIX_EDITOR_FORMAT:2 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="felix-regolamento-version" content="14">
+<meta name="felix-regolamento-version" content="15">
 <title>Felix Felicis GdR — Regolamento</title>
 <meta name="color-scheme" content="dark">
 <style>
@@ -13,6 +13,14 @@
 @font-face{font-family:'Antic Slab';font-style:normal;font-weight:400;font-display:swap;src:url('https://fonts.gstatic.com/s/anticslab/v15/bWt97fPFfRzkCa9Jlp6IacVcXA.woff2') format('woff2')}
 @font-face{font-family:'Federo';font-style:normal;font-weight:400;font-display:swap;src:url('https://fonts.gstatic.com/s/federo/v17/iJWFBX-cbD_ETsbWilmf.woff2') format('woff2')}
 @font-face{font-family:'MedievalSharp';font-style:normal;font-weight:400;font-display:swap;src:url('https://fonts.gstatic.com/s/medievalsharp/v24/EvOJzAlL3oU5AQl2mP5KdgptMqhwMg.woff2') format('woff2')}
+@font-face{font-family:'Fondamento';font-style:normal;font-weight:400;font-display:swap;src:url('https://fonts.gstatic.com/s/fondamento/v16/4UaHrEJGsxNmFTPDnkaJ96rp5w.woff2') format('woff2')}
+@font-face{font-family:'Nova Cut';font-style:normal;font-weight:400;font-display:swap;src:url('https://fonts.gstatic.com/s/novacut/v24/KFOkCnSYu8mL-39LkVxIIzIXKMny.woff2') format('woff2')}
+@font-face{font-family:'Allison';font-style:normal;font-weight:400;font-display:swap;src:url('https://fonts.gstatic.com/s/allison/v11/X7nl4b88AP2nkbvZCCGa4ebjEgg.woff2') format('woff2')}
+@font-face{font-family:'Passions Conflict';font-style:normal;font-weight:400;font-display:swap;src:url('https://fonts.gstatic.com/s/passionsconflict/v5/kmKnZrcrFhfafnWX9x0GuEC-zowow6NZaxM.woff2') format('woff2')}
+@font-face{font-family:'Mrs Saint Delafield';font-style:normal;font-weight:400;font-display:swap;src:url('https://fonts.gstatic.com/s/mrssaintdelafield/v13/v6-IGZDIOVXH9xtmTZfRagunqBw5WC62QKknLw.woff2') format('woff2')}
+@font-face{font-family:'IM Fell English';font-style:normal;font-weight:400;font-display:swap;src:url('https://fonts.gstatic.com/s/imfellenglish/v14/Ktk1ALSLW8zDe0rthJysWrnLsAzHEKOYd4xI5g.woff2') format('woff2')}
+@font-face{font-family:'magic';src:url('https://dl.dropboxusercontent.com/scl/fi/nbzmrri4qyvc3tzx96911/HarryBeastDisplay-Regular.woff2?rlkey=he290voe32k33gowug23c1osc&st=nj9fgly1') format('woff2');font-weight:normal;font-style:normal;font-display:swap}
+
 :root{--gold:#d4a514;--gold2:#f0ca45;--brown:#684a35;--brown2:#4e392a;--black:#080807;--panel:rgba(8,8,7,.94);--paper:#efe7d6;--paper2:#f8f1e3;--ink:#2c2721;--muted:#aa9d89;--line:rgba(212,165,20,.52);--navh:66px;--searchh:64px}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:150px}body{margin:0;min-height:100vh;background:#070707 url('https://i.imgur.com/0nAiv9e.png') repeat fixed top center;color:#eee;font-family:'Antic Slab',Georgia,serif}body:before{content:"";position:fixed;inset:0;z-index:-1;background:rgba(0,0,0,.45);pointer-events:none}button,input{font:inherit}
 .shell{position:sticky;top:0;z-index:50;box-shadow:0 8px 28px rgba(0,0,0,.42)}
@@ -706,6 +714,12 @@ body{background-color:#090807}
 .inline-tool-link:hover{filter:brightness(1.12);transform:translateY(-1px)}
 @media(max-width:720px){.context-tools{display:none}.inline-tool-callout{align-items:flex-start;flex-direction:column}.inline-tool-link{align-self:flex-start}}
 
+
+/* Staff preview bridge — visible only with ?staffpreview=1 */
+.staff-preview-badge{display:none;position:fixed;right:16px;bottom:16px;z-index:120;max-width:min(440px,calc(100vw - 32px));padding:10px 13px;border:1px solid #d7ad42;border-radius:10px;background:rgba(26,20,12,.96);color:#f8e8b9;box-shadow:0 10px 30px rgba(0,0,0,.45);font:13px/1.35 Arial,sans-serif}
+.staff-preview .staff-preview-badge{display:flex;align-items:center;gap:10px}.staff-preview-badge strong{color:#ffd86b}.staff-preview-badge a{margin-left:auto;color:#fff;text-decoration:none;border:1px solid rgba(255,255,255,.25);padding:5px 8px;border-radius:6px}.staff-preview-badge a:hover{background:rgba(255,255,255,.08)}
+.dice-ref{display:inline-block;padding:.05rem .35rem;border:1px solid currentColor;border-radius:999px;font-family:'Federo',serif;font-size:.9em}.tag-ref{font-weight:700;color:var(--sap-a)}
+
 </style>
 </head>
 <body>
@@ -1347,6 +1361,28 @@ window.addEventListener('resize',()=>{
   updateSidebarControls();
 });
 $('#copyLink').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(location.href);showToast('Link copiato.')}catch{showToast('Copia non disponibile in apertura locale: usa il link dalla barra del browser.')}});
+const STAFF_PREVIEW_KEY='ff_regolamento_staff_preview_v1';
+const STAFF_PREVIEW_CHANNEL='ff-regolamento-preview';
+const staffPreviewMode=new URLSearchParams(location.search).get('staffpreview')==='1';
+function applyStaffPreview(){
+  if(!staffPreviewMode)return false;
+  try{
+    const raw=localStorage.getItem(STAFF_PREVIEW_KEY);if(!raw)return false;
+    const data=JSON.parse(raw);const patches=data&&data.patches;if(!patches||typeof patches!=='object')return false;
+    Object.entries(patches).forEach(([slug,p])=>{if(PAGES[slug]&&p&&typeof p==='object')PAGES[slug]=p});
+    document.body.classList.add('staff-preview');
+    return true;
+  }catch(e){console.warn('Anteprima staff non leggibile',e);return false}
+}
+function refreshStaffPreview(){if(!staffPreviewMode)return;applyStaffPreview();buildIndex();renderPage()}
+if(staffPreviewMode){
+  applyStaffPreview();
+  if('BroadcastChannel' in window){const bc=new BroadcastChannel(STAFF_PREVIEW_CHANNEL);bc.addEventListener('message',e=>{if(e.data&&e.data.type==='preview-update')refreshStaffPreview()})}
+  window.addEventListener('storage',e=>{if(e.key===STAFF_PREVIEW_KEY)refreshStaffPreview()});
+}
 window.addEventListener('hashchange',renderPage);buildIndex();renderPage();
 </script>
+
+<div class="staff-preview-badge" id="staffPreviewBadge"><span><strong>ANTEPRIMA STAFF</strong><br>Modifiche locali non ancora pubblicate.</span><a href="./">Esci</a></div>
+
 </body></html>
